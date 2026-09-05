@@ -10,4 +10,8 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'success', message: 'Hackathon API is running' });
 });
 
+import userRouter from "./routes/user.routes.js";
+
+app.use("/api/v1/users", userRouter);
+
 export { app };

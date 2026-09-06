@@ -13,7 +13,9 @@ app.get('/api/health', (req, res) => {
 });
 
 import userRouter from "./routes/user.routes.js";
+import hackathonRouter from "./routes/hackathon.routes.js"
 
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/hackathon", hackathonRouter);
 
 export { app };

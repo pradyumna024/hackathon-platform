@@ -318,5 +318,34 @@ const updateHackathon = asyncHandler(async (req, res) => {
         );
 });
 
+const deleteHackathon = asyncHandler(async (req, res)=>{
+    const { hackathonId } = req.params;
 
-export {createHackathon, getHackathonById, getAllHackathons, updateHackathon}
+    if (!hackathonId) {
+        throw new ApiError(400, "Hackathon id is required");
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(hackathonId)) {
+        throw new ApiError(400, "Invalid hackathon id");
+    }
+
+    const hackathon = await Hackathon.findById(hackathonId);
+
+    if (!hackathon) {
+        throw new ApiError(404, "Hackathon not found");
+    }
+
+    if (hackathon.organiserId.toString() !== req.user._id.toString()) {
+        throw new ApiError(
+            403,
+            "You are not allowed to delete this hackathon"
+        );
+    }
+
+    await Hackathon.findByIdAndDelete(hackathonId);
+
+    return res.status(200).json(new ApiResponse(200 , {}, "Hackathon deleted Successfully"));
+})
+
+
+export {createHackathon, getHackathonById, getAllHackathons, updateHackathon, deleteHackathon}

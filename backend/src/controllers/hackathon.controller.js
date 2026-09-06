@@ -134,4 +134,30 @@ const createHackathon = asyncHandler( async(req, res)=>{
     return res.status(201).json(new ApiResponse(201, hackathon, "Hackathon created successfully"))
 })
 
-export {createHackathon}
+const getHackathonById = asyncHandler( async(req, res)=>{
+    const { hackathonId } = req.params;
+
+    if(!hackathonId){
+        throw new ApiError(400, "Hackathon id is required");
+    }
+
+    const hackathon = await Hackathon.findById(hackathonId)
+            .populate("organiserId", "name email avatar");
+
+    if(!hackathon){
+        throw new ApiError(404, "Hackathon not found");
+    }
+
+    return res.status(200).json(new ApiResponse(200, hackathon, "Hackathon fetched successfully"))
+})
+
+const getAllHackathons = asyncHandler( async(req, res)=>{
+    const hackathon = await Hackathon.find()
+        .populate("organiserId", "name email avatar")
+        .sort({ created: -1});
+
+    return res.status(200).json(new ApiResponse(200, hackathon, "Hackathons fetched successfully"))
+})
+
+
+export {createHackathon, getHackathonById, getAllHackathons}

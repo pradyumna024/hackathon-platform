@@ -347,5 +347,4 @@ const deleteHackathon = asyncHandler(async (req, res)=>{
     return res.status(200).json(new ApiResponse(200 , {}, "Hackathon deleted Successfully"));
 })
 
-
 export {createHackathon, getHackathonById, getAllHackathons, updateHackathon, deleteHackathon}

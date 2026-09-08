@@ -2,6 +2,8 @@ import { ApiError } from "../utils/ApiError";
 import { ApiResponse } from "../utils/ApiResponse";
 import { asyncHandler } from "../utils/asyncHandler";
 import { Project } from "../models/Project.model";
+import mongoose from "mongoose";
+import { Hackathon } from "../models/hackathon.model";
 
 const createProject = asyncHandler(async(req, res)=>{
     const { teamId } = req.body;
@@ -185,4 +187,34 @@ const updateProject = asyncHandler(async(req, res)=>{
         );
 })
 
-export { createProject, getProjectByTeamId, updateProject };
+const getProjectsByHackathonId = asyncHandler(async(req, res)=>{
+    const { hackathonId } = req.params;
+
+    if(!hackathonId){
+        throw new ApiError(400, "Hackathon id is required")
+    }
+
+    if(!mongoose.Types.ObjectId.isValid(hackathonId)){
+        throw new ApiError(400, "Invalid hackathon id")
+    }
+
+    const hackathon = await Hackathon.findById({hackathonId})
+
+    if(!hackathon){
+        throw new ApiError(400, "Hackathon does not exist")
+    }
+
+    const projects = await Project.find({ hackathonId })
+        .populate("teamId", "name members")
+        .sort({ createdAt: -1 });
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            projects,
+            "Projects fetched successfully"
+        )
+    );
+})
+
+export { createProject, getProjectByTeamId, updateProject, getProjectsByHackathonId };

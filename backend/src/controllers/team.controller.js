@@ -39,7 +39,7 @@ const createTeam = asyncHandler( async(req, res) => {
         "members.userId": req.user._id
     });
 
-    if (existingTeam) {
+    if(existingTeam){
         throw new ApiError(
             409,
             "You are already part of a team in this hackathon"
@@ -445,11 +445,11 @@ const removeMember = asyncHandler(async(req, res)=>{
     }
 
     if(!memberId){
-        throw new ApiError(400, "Team id is required");
+        throw new ApiError(400, "Member id is required");
     }
 
     if(!mongoose.Types.ObjectId.isValid(memberId)){
-        throw new ApiError(400, "Team id is Invalid");
+        throw new ApiError(400, "Member id is Invalid");
     }
 
     const leader = team.members.find(

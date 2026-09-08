@@ -15,9 +15,11 @@ app.get('/api/health', (req, res) => {
 import userRouter from "./routes/user.routes.js";
 import hackathonRouter from "./routes/hackathon.routes.js"
 import teamRouter from "./routes/team.routes.js"
+import projectRouter from "./routes/project.routes.js"
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/hackathon", hackathonRouter);
 app.use("/api/v1/team", teamRouter);
+app.use("./api/v1/project", projectRouter);
 
 export { app };

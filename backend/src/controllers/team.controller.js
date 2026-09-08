@@ -313,6 +313,178 @@ const respondToInvitation = asyncHandler(async(req, res)=>{
 
 })
 
+const getTeamDetails = asyncHandler( async(req, res)=>{
+    const {teamId} = req.params;
+
+    if(!teamId){
+        throw new ApiError(400, "Team id is required");
+    }
+
+    if(!mongoose.Types.ObjectId.isValid(teamId)){
+        throw new ApiError(400, "Team id is Invalid");
+    }
+
+    const team = await Team.findById(teamId)
+        .populate("members.userId", "name email avatar")
+        .populate("createdBy", "name email avatar");
+
+    if(!team){
+        throw new ApiError(404, "Team not found");
+    }
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, team, "Team fetched successfully"))
+
+})
+
+const getMyTeam = asyncHandler(async (req, res) => {
+    const { hackathonId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(hackathonId)) {
+        throw new ApiError(400, "Invalid hackathon id");
+    }
+
+    const team = await Team.findOne({
+        hackathonId,
+        "members.userId": req.user._id
+    })
+        .populate("members.userId", "name email avatar")
+        .populate("createdBy", "name email avatar");
+
+    if (!team) {
+        throw new ApiError(
+            404,
+            "You are not part of any team in this hackathon"
+        );
+    }
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            team,
+            "Team fetched successfully"
+        )
+    );
+});
+
+const leaveTeam = asyncHandler(async(req, res)=>{
+    const {teamId} = req.params;
+
+    if(!teamId){
+        throw new ApiError(400, "Team id is required");
+    }
+
+    if(!mongoose.Types.ObjectId.isValid(teamId)){
+        throw new ApiError(400, "Team id is Invalid");
+    }
+
+    const team = await Team.findById(teamId)
+
+    if(!team){
+        throw new ApiError(404, "Team not found");
+    }
+
+    const member = team.members.find(
+        (member) =>
+            member.userId.toString() === req.user._id.toString()
+    );
+
+    if(!member){
+        throw new ApiError(
+            403,
+            "You do not belong to this team"
+        );
+    }
+
+    if (member.role === "leader" && team.members.length > 1) {
+        throw new ApiError(
+            400,
+            "Leader cannot leave while other members are still in the team"
+        );
+    }
+
+    if (member.role === "leader" && team.members.length === 1) {
+        await Team.findByIdAndDelete(teamId);
+
+        return res.status(200).json(
+            new ApiResponse(
+                200,
+                {},
+                "Team deleted successfully"
+            )
+        );
+    }
+
+    team.members = team.members.filter(
+        (member) =>
+            member.userId.toString() !== req.user._id.toString()
+    );
+
+    await team.save();
+
+    return res.status(200).json(new ApiResponse(200, team, "Member successfully left the team"))
+
+})
+
+const removeMember = asyncHandler(async(req, res)=>{
+    const { teamId, memberId } = req.params;
+
+    if(!teamId){
+        throw new ApiError(400, "Team id is required");
+    }
+
+    if(!mongoose.Types.ObjectId.isValid(teamId)){
+        throw new ApiError(400, "Team id is Invalid");
+    }
+
+    const team = await Team.findById(teamId)
+
+    if(!team){
+        throw new ApiError(404, "Team not found");
+    }
+
+    if(!memberId){
+        throw new ApiError(400, "Team id is required");
+    }
+
+    if(!mongoose.Types.ObjectId.isValid(memberId)){
+        throw new ApiError(400, "Team id is Invalid");
+    }
+
+    const leader = team.members.find(
+        (member)=>
+            member.userId.toString() === req.user._id.toString() && member.role === "leader"
+    );
+
+    if(!leader){
+        throw new ApiError(403, "Only the team leader can remove members");
+    }
+
+    if(memberId.toString() === req.user._id.toString()){
+        throw new ApiError(400, "Leader cannot remove themselves using this endpoint");
+    }
+
+    const targetMember = team.members.find(
+        (member)=>
+            member.userId.toString() === memberId.toString()
+    )
+
+    if(!targetMember){
+        throw new ApiError(404, "Member not found in this team")
+    };
+
+    team.members = team.members.filter(
+        (member)=>
+            member.userId.toString() !== memberId.toString()
+    )
+
+    await team.save();
+
+    return res.status(200).json(new ApiResponse(200, team, "Member removed successfully"))
+})
 
 
-export { createTeam, sendInvitation, respondToInvitation };
+
+
+export { createTeam, sendInvitation, respondToInvitation, getTeamDetails, getMyTeam, leaveTeam, removeMember };

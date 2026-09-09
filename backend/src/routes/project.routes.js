@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { verifyJWT } from "../middlewares/auth.middleware";
-import { createProject, getProjectByTeamId, getProjectsByHackathonId, updateProject } from "../controllers/project.controller";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { createProject, getProjectByTeamId, getProjectsByHackathonId, updateProject } from "../controllers/project.controller.js";
 
 const router = Router();
 

@@ -118,6 +118,4 @@ const getAssignmentsByHackathon = asyncHandler(async (req, res) => {
     );
 });
 
-
-
 export { createJudgeAssignment, getMyJudgeAssignments, getAssignmentsByHackathon }

@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { verifyJWT } from "../middlewares/auth.middleware";
-import { getSubmissionByProject, getSubmissionsByHackathon, submission } from "../controllers/submission.controller";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { getSubmissionByProject, getSubmissionsByHackathon, submission } from "../controllers/submission.controller.js";
 
 const router = Router();
 

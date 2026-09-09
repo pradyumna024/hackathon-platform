@@ -83,4 +83,63 @@ const submission = asyncHandler(async(req, res)=>{
         );
 })
 
-export { submission }
+const getSubmissionsByHackathon = asyncHandler(async(req, res)=>{
+    const { hackathonId } = req.params;
+
+    if(!hackathonId){
+        throw new ApiError(400, "Hackathon id is required")
+    }
+
+    if(!mongoose.Types.ObjectId.isValid(hackathonId)){
+        throw new ApiError(400, "Invalid hackathon id")
+    }
+
+    const hackathon = await Hackathon.findById(hackathonId)
+
+    if(!hackathon){
+        throw new ApiError(404, "Hackathon not found");
+    }
+
+    const submissions = await Submission.find({ hackathonId })
+        .populate({
+            path: "projectId",
+            select: "title description repositoryUrl demoUrl teamId"
+        })
+        .populate("submittedBy", "name email avatar");
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            submissions,
+            "Submissions fetched successfully"
+        )
+    );
+
+    
+    
+})
+
+const getSubmissionByProject = asyncHandler(async (req, res) => {
+    const { projectId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(projectId)) {
+        throw new ApiError(400, "Invalid project id");
+    }
+
+    const submission = await Submission.findOne({ projectId })
+        .populate("submittedBy", "name email avatar");
+
+    if (!submission) {
+        throw new ApiError(404, "Submission not found");
+    }
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            submission,
+            "Submission fetched successfully"
+        )
+    );
+});
+
+export { submission, getSubmissionsByHackathon, getSubmissionByProject }

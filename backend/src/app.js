@@ -19,6 +19,7 @@ import projectRouter from "./routes/project.routes.js"
 import submissionRouter from "./routes/submission.routes.js"
 import judgeAssignmentRouter from "./routes/submission.routes.js"
 import evaluationRouter from "./routes/evaluation.routes.js"
+import leaderboardRouter from "./routes/leaderboard.routes.js"
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/hackathon", hackathonRouter);
@@ -27,5 +28,6 @@ app.use("./api/v1/project", projectRouter);
 app.use("/api/v1/submission", submissionRouter);
 app.use("api/v1/judge-assignment", judgeAssignmentRouter);
 app.use("api/v1/evaluation", evaluationRouter);
+app.use("api/v1/leaderboard", leaderboardRouter);
 
 export { app };

@@ -1,9 +1,9 @@
-import { ApiError } from "../utils/ApiError";
-import { ApiResponse } from "../utils/ApiResponse";
-import { asyncHandler } from "../utils/asyncHandler";
-import { Project } from "../models/Project.model";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { Project } from "../models/project.model.js";
 import mongoose from "mongoose";
-import { Hackathon } from "../models/hackathon.model";
+import { Hackathon } from "../models/hackathon.model.js";
 
 const createProject = asyncHandler(async(req, res)=>{
     const { teamId } = req.body;

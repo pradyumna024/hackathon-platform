@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-import { ApiError } from "../utils/ApiError";
-import { asyncHandler } from "../utils/asyncHandler";
-import { Project } from "../models/Project.model";
-import { Submission } from "../models/Submission.model";
-import { Hackathon } from "../models/hackathon.model";
+import { ApiError } from "../utils/ApiError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { Project } from "../models/project.model.js";
+import { Submission } from "../models/Submission.model.js";
+import { Hackathon } from "../models/hackathon.model.js";
 
 const submission = asyncHandler(async(req, res)=>{
     const { projectId } = req.body;

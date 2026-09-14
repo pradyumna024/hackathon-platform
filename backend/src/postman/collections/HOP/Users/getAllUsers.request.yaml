@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{server}}/users/get-allUsers"
+method: GET
+order: 4503465708733912

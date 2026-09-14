@@ -1,0 +1,36 @@
+name: HOP Local
+values:
+  - key: server
+    value: 'http://localhost:8000/api/v1'
+  - key: organiserId
+    value: ''
+  - key: participantId
+    value: ''
+  - key: participant2Id
+    value: ''
+  - key: judgeId
+    value: ''
+  - key: hackathonId
+    value: ''
+  - key: teamId
+    value: ''
+  - key: projectId
+    value: ''
+  - key: submissionId
+    value: ''
+  - key: judgeAssignmentId
+    value: ''
+  - key: evaluationId
+    value: ''
+  - key: invitationId
+    value: ''
+  - key: criteria1Id
+    value: ''
+  - key: criteria2Id
+    value: ''
+  - key: criteria3Id
+    value: ''
+  - key: accessToken
+    value: ''
+  - key: refreshToken
+    value: ''

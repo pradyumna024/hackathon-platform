@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{server}}/team//leave"
+method: POST
+order: 4358033324138785

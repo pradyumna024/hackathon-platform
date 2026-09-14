@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{server}}/team//invitation/"
+method: POST
+order: 1736596303040578

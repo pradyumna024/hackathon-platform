@@ -213,6 +213,20 @@ const getCurrentUser = asyncHandler(async (req, res) => {
         );
 });
 
+const getAllUsers = asyncHandler(async (req, res) => {
+    const users = await User.find()
+        .select("-password -refreshToken")
+        .sort({ createdAt: -1 });
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            users,
+            "Users fetched successfully"
+        )
+    );
+});
+
 const changeCurrentPassword = asyncHandler(async (req, res) => {
     const { oldPassword, newPassword } = req.body;
 
@@ -334,4 +348,4 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
         );
 });
 
-export {registerUser, loginUser, logoutUser, refreshAccessToken, getCurrentUser, changeCurrentPassword, updateAccountDetails, updateUserAvatar}
+export {registerUser, loginUser, logoutUser, refreshAccessToken, getCurrentUser, getAllUsers ,changeCurrentPassword, updateAccountDetails, updateUserAvatar}

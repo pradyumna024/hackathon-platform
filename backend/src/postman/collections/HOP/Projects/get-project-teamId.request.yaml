@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{server}}/project/team/"
+method: GET
+order: 1012451006114838

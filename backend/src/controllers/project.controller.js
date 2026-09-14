@@ -2,6 +2,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Project } from "../models/project.model.js";
+import { Team } from "../models/team.model.js"
 import mongoose from "mongoose";
 import { Hackathon } from "../models/hackathon.model.js";
 
@@ -22,7 +23,7 @@ const createProject = asyncHandler(async(req, res)=>{
         throw new ApiError(404, "Team not found");
     }
 
-    const { title, description, problemStatement, solution, } = req.body;
+    const { title, description, problemStatement, solution, repositoryUrl, demoUrl, techStack } = req.body;
 
     if([title,  description, problemStatement, solution, repositoryUrl, demoUrl]
         .some((field)=> !field)
@@ -54,7 +55,7 @@ const createProject = asyncHandler(async(req, res)=>{
     }
 
     const project = await Project.create({
-        temaId,
+        teamId,
         hackathonId: team.hackathonId,
         title,
         description,

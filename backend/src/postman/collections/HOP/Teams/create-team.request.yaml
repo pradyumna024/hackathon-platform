@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{server}}/team/create-team"
+method: POST
+order: 4502759672913686

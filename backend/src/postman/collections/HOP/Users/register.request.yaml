@@ -1,0 +1,28 @@
+$kind: http-request
+url: "{{server}}/users/register"
+method: POST
+body:
+  type: formdata
+  content:
+    - type: text
+      key: name
+      value: Pradyumna
+      description: ""
+      disabled: false
+    - type: text
+      key: email
+      value: pradyumna0505@gmail.com
+      description: ""
+      disabled: false
+    - type: text
+      key: password
+      value: "12345678"
+      description: ""
+      disabled: false
+    - type: file
+      key: avatar
+      src:
+        - postman-cloud:///1f196da3-b9eb-4610-8070-ffb1a5778c0f
+      description: ""
+      disabled: false
+order: 1789302955659

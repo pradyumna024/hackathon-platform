@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{server}}/team//remove-member/"
+method: PATCH
+order: 4495805707075100

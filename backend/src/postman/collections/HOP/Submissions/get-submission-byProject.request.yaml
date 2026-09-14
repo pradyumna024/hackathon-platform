@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{server}}/submission/project/"
+method: GET
+order: 3185662418072040

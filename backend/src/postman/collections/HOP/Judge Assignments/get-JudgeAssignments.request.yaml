@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{server}}/judge-assignment/my-assignments"
+method: GET
+order: 3800786827646118

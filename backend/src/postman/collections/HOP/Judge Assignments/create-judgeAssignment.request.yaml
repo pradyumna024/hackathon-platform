@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{server}}/judge-assignment/"
+method: POST
+order: 3935016623906088

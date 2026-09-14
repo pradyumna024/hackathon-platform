@@ -484,7 +484,42 @@ const removeMember = asyncHandler(async(req, res)=>{
     return res.status(200).json(new ApiResponse(200, team, "Member removed successfully"))
 })
 
+const getTeamsByHackathon = asyncHandler(async (req, res) => {
+    const { hackathonId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(hackathonId)) {
+        throw new ApiError(
+            400,
+            "Invalid hackathon id"
+        );
+    }
+
+    const hackathon = await Hackathon.findById(hackathonId);
+
+    if (!hackathon) {
+        throw new ApiError(
+            404,
+            "Hackathon not found"
+        );
+    }
+
+    const teams = await Team.find({
+        hackathonId
+    })
+        .populate("members.userId", "name email avatar")
+        .populate("createdBy", "name email avatar")
+        .sort({ createdAt: -1 });
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            teams,
+            "Teams fetched successfully"
+        )
+    );
+});
 
 
 
-export { createTeam, sendInvitation, respondToInvitation, getTeamDetails, getMyTeam, leaveTeam, removeMember };
+
+export { createTeam, sendInvitation, respondToInvitation, getTeamDetails, getMyTeam, leaveTeam, removeMember, getTeamsByHackathon };

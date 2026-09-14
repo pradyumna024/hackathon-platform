@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{server}}/evaluation/assignment/"
+method: GET
+order: 569941010004787

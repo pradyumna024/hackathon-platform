@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{server}}/evaluation/hackathon/"
+method: GET
+order: 2059758197841547

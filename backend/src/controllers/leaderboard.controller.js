@@ -11,6 +11,7 @@ import { Evaluation } from "../models/evaluation.model.js";
 import { Project } from "../models/project.model.js";
 import { Team } from "../models/team.model.js";
 
+
 const getLeaderboard = asyncHandler(async (req, res) => {
     const { hackathonId } = req.params;
 

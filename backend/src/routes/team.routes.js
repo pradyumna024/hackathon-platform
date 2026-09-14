@@ -1,6 +1,6 @@
 import Router from "express"
 import { verifyJWT } from "../middlewares/auth.middleware.js"
-import { createTeam, getMyTeam, getTeamDetails, leaveTeam, removeMember, respondToInvitation, sendInvitation } from "../controllers/team.controller.js"
+import { createTeam, getMyTeam, getTeamDetails, getTeamsByHackathon, leaveTeam, removeMember, respondToInvitation, sendInvitation } from "../controllers/team.controller.js"
 
 const router = Router()
 
@@ -11,5 +11,6 @@ router.route("/:teamId").get(getTeamDetails)
 router.route("/my-team/:hackathonId").get(verifyJWT, getMyTeam)
 router.route("/:teamId/leave").patch(verifyJWT, leaveTeam)
 router.route("/:teamId/remove-member/:memberId").patch(verifyJWT, removeMember)
+router.route("/hackathon/:hackathonId").get(getTeamsByHackathon)
 
 export default router

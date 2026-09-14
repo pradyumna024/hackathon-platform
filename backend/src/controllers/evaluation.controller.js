@@ -142,6 +142,15 @@ const createEvaluation = asyncHandler(async(req, res)=>{
     assignment.status = "completed";
     await assignment.save();
 
+    const io = req.app.get("io");
+
+    io.to(`hackathon:${assignment.hackathonId}`).emit(
+        "leaderboardUpdated",
+        {
+            hackathonId: assignment.hackathonId
+        }
+    );
+
     return res.status(201).json(
         new ApiResponse(
             201,
